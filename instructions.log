@@ -1,0 +1,85 @@
+0x10000513: addi
+0x00700093: addi
+0x00300113: addi
+0xFFB00193: addi
+0x00400213: addi
+0x00100293: addi
+0x01F29293: slli
+0x00100313: addi
+0x01E31313: slli
+0xFFF00413: addi
+0x00208A33: add
+0x07452223: sw
+0x40208A33: sub
+0x07452423: sw
+0x00C0FA13: andi
+0x07452623: sw
+0x0080EA13: ori
+0x07452823: sw
+0x00A0CA13: xori
+0x07452A23: sw
+0x00211A13: slli
+0x07452C23: sw
+0x001A5A13: srli
+0x07452E23: sw
+0x4011DA13: srai
+0x09452023: sw
+0x0011AA33: slt
+0x09452223: sw
+0x0011BA33: sltu
+0x09452423: sw
+0x06452A83: lw
+0x02208A33: mul <-- New instruction
+0x01452023: sw
+0x02308A33: mul <-- New instruction
+0x01452223: sw
+0x02318A33: mul <-- New instruction
+0x01452423: sw
+0x02430A33: mul <-- New instruction
+0x01452623: sw
+0x02431A33: mulh <-- New instruction
+0x01452823: sw
+0x02119A33: mulh <-- New instruction
+0x01452A23: sw
+0x02309A33: mulh <-- New instruction
+0x01452C23: sw
+0x02319A33: mulh <-- New instruction
+0x01452E23: sw
+0x0220CA33: div <-- New instruction
+0x03452023: sw
+0x0230CA33: div <-- New instruction
+0x03452223: sw
+0x0211CA33: div <-- New instruction
+0x03452423: sw
+0x0231CA33: div <-- New instruction
+0x03452623: sw
+0x0200CA33: div <-- New instruction
+0x03452823: sw
+0x0282CA33: div <-- New instruction
+0x03452A23: sw
+0x0220EA33: mod <-- New instruction
+0x03452C23: sw
+0x0230EA33: mod <-- New instruction
+0x03452E23: sw
+0x0211EA33: mod <-- New instruction
+0x05452023: sw
+0x0231EA33: mod <-- New instruction
+0x05452223: sw
+0x0200EA33: mod <-- New instruction
+0x05452423: sw
+0x0282EA33: mod <-- New instruction
+0x05452623: sw
+0x3E700E93: addi
+0x00A00B13: addi
+0x016A8463: beq
+0x00209463: bne
+0x0011C463: blt
+0x0030D463: bge
+0x0030E463: bltu
+0x0011F463: bgeu
+0x00800E6F: jal
+0x0040006F: jal
+0x16C00F93: addi
+0x000F8F67: jalr
+0x07B00F13: addi
+0x0FE52A23: sw

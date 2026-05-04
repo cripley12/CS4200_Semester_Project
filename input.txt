@@ -1,0 +1,204 @@
+# THIS IS AN AI GENERATED INPUT FILE TO TEST AND VERIFY ALL MAIN INPUT CASES
+# FOR THE RV32I INSTRUCTION SET WITH MUL, MULH, DIV, AND MOD INCLUDED
+#
+#
+#
+# Expanded instruction test program
+# Data memory is the scoreboard. Expected highlights:
+# 0x00000100=21 mul 7*3
+# 0x00000104=0xFFFFFFDD mul 7*-5 low
+# 0x00000110=1 mulh 0x40000000*4 high
+# 0x00000118=0xFFFFFFFF mulh 7*-5 high
+# 0x00000130=0xFFFFFFFF div by zero
+# 0x00000134=0x80000000 INT_MIN/-1
+# 0x00000140=0xFFFFFFFB mod -5%7
+# 0x00000148=7 mod by zero
+# 0x000001F4=123 control-flow success marker
+# 0x000001F0 should NOT appear; it is the branch/jump fail marker
+
+# pc 0x00000000: addi x10,x0,256 ; expected base address for result table
+10000513
+# pc 0x00000004: addi x1,x0,7 ; expected x1 = 7
+00700093
+# pc 0x00000008: addi x2,x0,3 ; expected x2 = 3
+00300113
+# pc 0x0000000C: addi x3,x0,-5 ; expected x3 = -5
+FFB00193
+# pc 0x00000010: addi x4,x0,4 ; expected x4 = 4
+00400213
+# pc 0x00000014: addi x5,x0,1 ; expected setup INT_MIN
+00100293
+# pc 0x00000018: slli x5,x5,31 ; expected x5 = 0x80000000
+01F29293
+# pc 0x0000001C: addi x6,x0,1 ; expected setup high-bit positive
+00100313
+# pc 0x00000020: slli x6,x6,30 ; expected x6 = 0x40000000
+01E31313
+# pc 0x00000024: addi x8,x0,-1 ; expected x8 = -1
+FFF00413
+# pc 0x00000028: add x20,x1,x2 ; expected mem[356] = 10
+00208A33
+# pc 0x0000002C: sw x20,100(x10) ; expected mem[356] = 10
+07452223
+# pc 0x00000030: sub x20,x1,x2 ; expected mem[360] = 4
+40208A33
+# pc 0x00000034: sw x20,104(x10) ; expected mem[360] = 4
+07452423
+# pc 0x00000038: andi x20,x1,12 ; expected mem[364] = 4
+00C0FA13
+# pc 0x0000003C: sw x20,108(x10) ; expected mem[364] = 4
+07452623
+# pc 0x00000040: ori x20,x1,8 ; expected mem[368] = 15
+0080EA13
+# pc 0x00000044: sw x20,112(x10) ; expected mem[368] = 15
+07452823
+# pc 0x00000048: xori x20,x1,10 ; expected mem[372] = 13
+00A0CA13
+# pc 0x0000004C: sw x20,116(x10) ; expected mem[372] = 13
+07452A23
+# pc 0x00000050: slli x20,x2,2 ; expected mem[376] = 12
+00211A13
+# pc 0x00000054: sw x20,120(x10) ; expected mem[376] = 12
+07452C23
+# pc 0x00000058: srli x20,x20,1 ; expected mem[380] = 6
+001A5A13
+# pc 0x0000005C: sw x20,124(x10) ; expected mem[380] = 6
+07452E23
+# pc 0x00000060: srai x20,x3,1 ; expected mem[384] = 0xFFFFFFFD
+4011DA13
+# pc 0x00000064: sw x20,128(x10) ; expected mem[384] = 0xFFFFFFFD
+09452023
+# pc 0x00000068: slt x20,x3,x1 ; expected mem[388] = 1
+0011AA33
+# pc 0x0000006C: sw x20,132(x10) ; expected mem[388] = 1
+09452223
+# pc 0x00000070: sltu x20,x3,x1 ; expected mem[392] = 0
+0011BA33
+# pc 0x00000074: sw x20,136(x10) ; expected mem[392] = 0
+09452423
+# pc 0x00000078: lw x21,100(x10) ; expected x21 = 10 from memory
+06452A83
+# pc 0x0000007C: mul x20,x1,x2 ; expected mem[256] = 21, 7*3
+02208A33
+# pc 0x00000080: sw x20,0(x10) ; expected mem[256] = 21, 7*3
+01452023
+# pc 0x00000084: mul x20,x1,x3 ; expected mem[260] = 0xFFFFFFDD, 7*-5 low
+02308A33
+# pc 0x00000088: sw x20,4(x10) ; expected mem[260] = 0xFFFFFFDD, 7*-5 low
+01452223
+# pc 0x0000008C: mul x20,x3,x3 ; expected mem[264] = 25, -5*-5 low
+02318A33
+# pc 0x00000090: sw x20,8(x10) ; expected mem[264] = 25, -5*-5 low
+01452423
+# pc 0x00000094: mul x20,x6,x4 ; expected mem[268] = 0, low half overflow
+02430A33
+# pc 0x00000098: sw x20,12(x10) ; expected mem[268] = 0, low half overflow
+01452623
+# pc 0x0000009C: mulh x20,x6,x4 ; expected mem[272] = 1, high half positive overflow
+02431A33
+# pc 0x000000A0: sw x20,16(x10) ; expected mem[272] = 1, high half positive overflow
+01452823
+# pc 0x000000A4: mulh x20,x3,x1 ; expected mem[276] = 0xFFFFFFFF, -5*7 high
+02119A33
+# pc 0x000000A8: sw x20,20(x10) ; expected mem[276] = 0xFFFFFFFF, -5*7 high
+01452A23
+# pc 0x000000AC: mulh x20,x1,x3 ; expected mem[280] = 0xFFFFFFFF, 7*-5 high
+02309A33
+# pc 0x000000B0: sw x20,24(x10) ; expected mem[280] = 0xFFFFFFFF, 7*-5 high
+01452C23
+# pc 0x000000B4: mulh x20,x3,x3 ; expected mem[284] = 0, -5*-5 high
+02319A33
+# pc 0x000000B8: sw x20,28(x10) ; expected mem[284] = 0, -5*-5 high
+01452E23
+# pc 0x000000BC: div x20,x1,x2 ; expected mem[288] = 2, 7/3
+0220CA33
+# pc 0x000000C0: sw x20,32(x10) ; expected mem[288] = 2, 7/3
+03452023
+# pc 0x000000C4: div x20,x1,x3 ; expected mem[292] = 0xFFFFFFFF, 7/-5
+0230CA33
+# pc 0x000000C8: sw x20,36(x10) ; expected mem[292] = 0xFFFFFFFF, 7/-5
+03452223
+# pc 0x000000CC: div x20,x3,x1 ; expected mem[296] = 0, -5/7 trunc toward zero
+0211CA33
+# pc 0x000000D0: sw x20,40(x10) ; expected mem[296] = 0, -5/7 trunc toward zero
+03452423
+# pc 0x000000D4: div x20,x3,x3 ; expected mem[300] = 1, -5/-5
+0231CA33
+# pc 0x000000D8: sw x20,44(x10) ; expected mem[300] = 1, -5/-5
+03452623
+# pc 0x000000DC: div x20,x1,x0 ; expected mem[304] = 0xFFFFFFFF, divide by zero
+0200CA33
+# pc 0x000000E0: sw x20,48(x10) ; expected mem[304] = 0xFFFFFFFF, divide by zero
+03452823
+# pc 0x000000E4: div x20,x5,x8 ; expected mem[308] = 0x80000000, INT_MIN/-1
+0282CA33
+# pc 0x000000E8: sw x20,52(x10) ; expected mem[308] = 0x80000000, INT_MIN/-1
+03452A23
+# pc 0x000000EC: mod x20,x1,x2 ; expected mem[312] = 1, 7%3
+0220EA33
+# pc 0x000000F0: sw x20,56(x10) ; expected mem[312] = 1, 7%3
+03452C23
+# pc 0x000000F4: mod x20,x1,x3 ; expected mem[316] = 2, 7%-5
+0230EA33
+# pc 0x000000F8: sw x20,60(x10) ; expected mem[316] = 2, 7%-5
+03452E23
+# pc 0x000000FC: mod x20,x3,x1 ; expected mem[320] = 0xFFFFFFFB, -5%7
+0211EA33
+# pc 0x00000100: sw x20,64(x10) ; expected mem[320] = 0xFFFFFFFB, -5%7
+05452023
+# pc 0x00000104: mod x20,x3,x3 ; expected mem[324] = 0, -5%-5
+0231EA33
+# pc 0x00000108: sw x20,68(x10) ; expected mem[324] = 0, -5%-5
+05452223
+# pc 0x0000010C: mod x20,x1,x0 ; expected mem[328] = 7, mod by zero returns dividend
+0200EA33
+# pc 0x00000110: sw x20,72(x10) ; expected mem[328] = 7, mod by zero returns dividend
+05452423
+# pc 0x00000114: mod x20,x5,x8 ; expected mem[332] = 0, INT_MIN%-1
+0282EA33
+# pc 0x00000118: sw x20,76(x10) ; expected mem[332] = 0, INT_MIN%-1
+05452623
+# pc 0x0000011C: addi x29,x0,999 ; expected fail marker
+3E700E93
+# pc 0x00000120: addi x22,x0,10 ; expected branch compare value
+00A00B13
+# pc 0x00000124: beq x21,x22,after_beq ; expected taken
+016A8463
+# pc 0x00000128: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x0000012C: bne x1,x2,after_bne ; expected taken
+00209463
+# pc 0x00000130: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x00000134: blt x3,x1,after_blt ; expected taken signed
+0011C463
+# pc 0x00000138: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x0000013C: bge x1,x3,after_bge ; expected taken signed
+0030D463
+# pc 0x00000140: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x00000144: bltu x1,x3,after_bltu ; expected taken unsigned
+0030E463
+# pc 0x00000148: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x0000014C: bgeu x3,x1,after_bgeu ; expected taken unsigned
+0011F463
+# pc 0x00000150: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x00000154: jal x28,after_jal ; expected taken, skips fail write
+00800E6F
+# pc 0x00000158: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x0000015C: jal x0,after_jalr_setup ; expected fall into jalr setup
+0040006F
+# pc 0x00000160: addi x31,x0,364 ; expected x31 = jalr target address
+16C00F93
+# pc 0x00000164: jalr x30,0(x31) ; expected taken, skips fail write
+000F8F67
+# pc 0x00000168: sw x29,240(x10) ; expected FAIL write; should be skipped
+0FD52823
+# pc 0x0000016C: addi x30,x0,123 ; expected success marker
+07B00F13
+# pc 0x00000170: sw x30,244(x10) ; expected mem[500] = 123 if jumps worked
+0FE52A23
