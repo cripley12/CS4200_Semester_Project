@@ -288,8 +288,8 @@ def alu_exec(alu_op, a, b):
     # Additional Instructions for Project
     # --------------------------------------
     if alu_op == "MUL":
-        # Could do result = u32(a*b) & MASK32, since Python can do it that way, but I'm implementing
-        # the method we learned in class for more of a challenge
+        # Could just do result = u32(a*b) & MASK32, since Python can do it easily
+        
         multiplicand = u32(a) # can use unsigned for regular mul
         multiplier = u32(b)
         result = 0
@@ -306,8 +306,9 @@ def alu_exec(alu_op, a, b):
         multiplicand = s32(a) # use signed for upper mul
         multiplier = s32(b)
         result = 0
-        sign = True
+        sign = True # true = pos, false = neg
         
+        # check, switch, and track signs accordingly for positive only calculation
         if multiplicand < 0:
             multiplicand = -multiplicand
             sign = not sign
@@ -315,7 +316,7 @@ def alu_exec(alu_op, a, b):
             multiplier = -multiplier
             sign = not sign
         
-        # same process as above just using signed
+        # same process as above
         for _ in range(32):
             if multiplier & 1:
                 result = result + multiplicand
@@ -328,30 +329,22 @@ def alu_exec(alu_op, a, b):
         return u32(result >> 32) # shift result right 32 bits for upper half of 64 bit result
         
     if alu_op == "DIV":
-        dividend = u32(a) # determine sign outside of calculation
-        divisor = u32(b)
+        dividend = s32(a) # determine sign outside of calculation
+        divisor = s32(b)
         quotient = 0
         remainder = 0
-        sign = False # true for pos, false for neg
+        sign = True # true for pos, false for neg
         
         if divisor == 0: return 0xFFFFFFFF # divide by zero error
-        if divisor == -1 and dividend == NEGCHECK: return 0xFFFFFFFF # overflow
+        if divisor == -1 and dividend == -NEGCHECK: return NEGCHECK # overflow
         
-        if (dividend & NEGCHECK) >> 31 != 0 and (divisor & NEGCHECK) >> 31 != 0:
-            sign = True # both negative = positive
-            dividend = u32(-s32(dividend)) # make dividend positive for calculation
-            divisor = u32(-s32(divisor)) # make divisor positive for calc
-            
-        if (dividend & NEGCHECK) >> 31 == 0 and (divisor & NEGCHECK) >> 31 == 0:
-            sign = True # both positive = positive
-            
-        # if neither check above switched sign, then the quotient will be negative
-        
-        # need to compute with positive vals, check both and convert since one may be negative
-        if (dividend & NEGCHECK) >> 31 != 0:
-            dividend = u32(-s32(dividend))
-        if (divisor & NEGCHECK) >> 31 != 0:
-            divisor = u32(-s32(divisor))
+        # check, switch, and track signs accordingly for positive only calculation
+        if dividend < 0: 
+            dividend = -dividend
+            sign = not sign
+        if divisor < 0:
+            divisor = -divisor
+            sign = not sign
             
         for i in range(31, -1, -1): # iterate through all bits, using index i for bits in dividend, start from MSB
             remainder = u32(remainder << 1) # shift remainder left
@@ -369,19 +362,21 @@ def alu_exec(alu_op, a, b):
     
     if alu_op == "MOD":
         # can reuse the division algorithm but return remainder, track the sign of the dividend for return
-        dividend = u32(a) # determine sign outside of calculation
-        divisor = u32(b)
+        dividend = s32(a) # determine sign outside of calculation
+        divisor = s32(b)
         quotient = 0
         remainder = 0
         sign = True # false = neg, true = pos
         
         if divisor == 0: return u32(dividend) # mod 0 gives remainder = dividend
         
-        if (dividend & NEGCHECK) >> 31 != 0:
-            dividend = u32(-s32(dividend)) # make dividend positive for calculation
-            sign = False # if dividend is negative, result will be negative
-        if (divisor & NEGCHECK) >> 31 != 0:
-            divisor = u32(-s32(divisor)) # make divisor positive for calc
+        # check signs, make positive for calculation, and track result sign
+        if dividend < 0: 
+            dividend = -dividend
+            sign = False # only the dividend's sign matters for the result
+        if divisor < 0:
+            divisor = -divisor
+            # do not change sign here
         
         # same div algo as above, just returning remainder instead
         for i in range(31, -1, -1):
