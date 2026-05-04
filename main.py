@@ -1,6 +1,6 @@
 # Chase Ripley
 # Semester Project
-# CS4200 Dr. Zanyar
+# CS4200 Dr. Zanyar Zohourianshahzadi
 # 5/3/2026
 #
 # ISA Extension, implemented the functionality for mul, mulh, div, and mod instructions in RV32I simulator
